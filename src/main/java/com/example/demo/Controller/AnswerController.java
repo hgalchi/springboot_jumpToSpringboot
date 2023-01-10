@@ -22,13 +22,20 @@ public class AnswerController {
 
     //답변생성 id=답변의 질문id
     @PostMapping("/create/{id}")
-    public ResponseEntity<Answer> create(@RequestParam(required = false,defaultValue = "answer about question") String content
-            , @PathVariable("id") Integer id) {
+    public ResponseEntity<Answer> create(@PathVariable("id") Integer id
+            , @RequestParam(required = false, defaultValue = "answer about question") String content) {
 
-        Question q=questionService.getList().get(id);
-        Answer a=answerService.create(content,q);
+        Question q = questionService.getList().get(id);
+        Answer a = answerService.create(content, q);
 
-        return new ResponseEntity<>(a,HttpStatus.OK);
+        return new ResponseEntity<>(a, HttpStatus.OK);
 
+    }
+
+    @PostMapping("test/{num}")
+    @ResponseBody
+    public String test(@PathVariable int num, @RequestParam(required = false, defaultValue = "answer about question") String content) {
+        System.out.println(num);
+        return content;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.demo;
 
+import com.example.demo.Entity.Answer;
 import com.example.demo.Entity.Question;
+import com.example.demo.Repository.AnswerRepository;
 import com.example.demo.Repository.QuestionRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -9,12 +11,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class JumpToApplicationTests {
 
 	@Autowired
 	private QuestionRepository questionRepository;
+
+	@Autowired
+	private AnswerRepository answerRepository;
 
 	@Test
 	public void QuestionCreate(){
@@ -40,6 +46,17 @@ class JumpToApplicationTests {
 			questionRepository.save(Question.builder().subject("test").content("테스트중").createDate(LocalDateTime.now()).build());
 
 		}
+	}
+
+	@Test
+	public void 답변생성(){
+		Question q = questionRepository.findAll().get(0);
+		Answer result=Answer.builder()
+						.content("question1")
+						.createDate(LocalDateTime.now())
+						.question(q)
+						.build();
+		answerRepository.save(result);
 	}
 
 
